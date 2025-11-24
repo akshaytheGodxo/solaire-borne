@@ -8,7 +8,8 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
-import  {  TAuthCredentialsValidator as type, AuthCredentialsValidator } from "@/lib/validators/account-credentials";
+import  { AuthCredentialsValidator } from "@/lib/validators/account-credentials";
+import type { TAuthCredentialsValidator } from "@/lib/validators/account-credentials";
 import { trpc } from "@/trpc/client";
 
 const Page = () => {
@@ -19,11 +20,11 @@ const Page = () => {
         resolver: zodResolver(AuthCredentialsValidator),
     });
 
-    const { data } = trpc.anyApiRoute.useQuery();
-    console.log("my data: ", data);
+    const {mutate} = trpc.auth.createPayloadUser.useMutation({})
+
     const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
         // sending data to the server
-
+        mutate({email, password}) 
     }
 
     return (
@@ -60,7 +61,7 @@ const Page = () => {
                                 <div className="grid gap-1 py-2">
                                     <Label htmlFor="password">Password</Label>
                                     <Input
-
+                                        type="password"
                                         {...register('password')}
                                         className={cn({
                                             "focus-visible:ring-red-500": errors.password

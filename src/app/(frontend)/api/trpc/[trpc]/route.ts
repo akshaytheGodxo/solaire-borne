@@ -4,9 +4,8 @@ import { NextRequest } from "next/server";
 // this function will extract get and post request from trpc
 
 const handler = (req: NextRequest) => {
-    console.log("req",req);
 
-     fetchRequestHandler({
+    return fetchRequestHandler({
         endpoint: "/api/trpc",
         req,
         router: appRouter,

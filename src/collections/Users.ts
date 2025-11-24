@@ -1,13 +1,32 @@
 import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
-  slug: 'wowcool',
+  slug: 'users',
   admin: {
     useAsTitle: 'email',
   },
+  access: {
+    read: () => true,
+    create: () => true,
+  },
   auth: true,
   fields: [
-    // Email added by default
-    // Add more fields as needed
+    {
+      name: 'role',
+      required: true,
+      defaultValue: 'user',
+      type: 'select',
+
+      options: [
+        {
+          label: "Admin", 
+          value: "admin"
+        },
+        {
+          label: "User",
+          value: 'user'
+        }
+      ]
+    }
   ],
 }

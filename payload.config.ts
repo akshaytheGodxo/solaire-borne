@@ -1,40 +1,52 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from '@payloadcms/db-mongodb' // database-adapter-import
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
-import sharp from 'sharp'
+import { mongooseAdapter } from "@payloadcms/db-mongodb"; // database-adapter-import
+import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import path from "path";
+import { buildConfig } from "payload";
+import { fileURLToPath } from "url";
+import sharp from "sharp";
 
-import { Users } from './src/collections/Users'
-import { Media } from './src/collections/Media'
+import { Users } from "./src/collections/Users";
+import { Media } from "./src/collections/Media";
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
-    
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
+
+  email: nodemailerAdapter({
+    defaultFromAddress: "onboarding@resend.dev",
+    defaultFromName: "DigitalHippo",
+    transportOptions: {
+      host: "smtp.resend.com",
+      secure: true,
+      port: 465,
+      auth: {
+        user: "resend",
+        pass: process.env.RESEND_API_KEY,
+      },
+    },
+  }),
   collections: [Users, Media],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
-    declare:  false,
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    declare: false,
+    outputFile: path.resolve(dirname, "payload-types.ts"),
   },
   // database-adapter-config-start
   db: mongooseAdapter({
-    url: process.env.MONGODB_URL || '',
+    url: process.env.MONGODB_URL || "",
   }),
   // database-adapter-config-end
   sharp,
   plugins: [
     // storage-adapter-placeholder
   ],
-
-  
-})
+});

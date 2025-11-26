@@ -2,7 +2,9 @@ import { AuthCredentialsValidator } from "@/lib/validators/account-credentials";
 import { router, publicProcedure } from "../trpc";
 import { getPayloadClient } from "@/get-payload";
 import { TRPCError } from "@trpc/server";
+import { cookies } from "next/headers";
 import z from "zod";
+
 export const authRouter = router({
   createPayloadUser: publicProcedure
     .input(AuthCredentialsValidator)
@@ -57,5 +59,33 @@ export const authRouter = router({
       if (!isVerified) throw new TRPCError({ code: "UNAUTHORIZED" });
 
       return { success: true };
+    }),
+
+  signIn: publicProcedure
+    .input(AuthCredentialsValidator)
+    .mutation(async ({ input, ctx }) => {
+      const { email, password } = input;
+      const payload = await getPayloadClient();
+      try {
+        const result = await payload.login({
+          collection: "users",
+          data: {
+            email,
+            password,
+          },
+        });
+
+        const token = result.token || ""  
+        const cookieStore = await cookies();
+        cookieStore.set("payload-token", token, {
+          httpOnly: true,
+          path: "/"
+        })
+        if (!token) throw new Error("No token returned from payload");
+        
+        return {success: true}
+      } catch (error) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
     }),
 });

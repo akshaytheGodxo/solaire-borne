@@ -1,6 +1,7 @@
 import { appRouter } from "@/trpc"
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch"
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { createContext } from "@/server/context";
 // this function will extract get and post request from trpc
 
 const handler = (req: NextRequest) => {
@@ -8,7 +9,9 @@ const handler = (req: NextRequest) => {
     return fetchRequestHandler({
         endpoint: "/api/trpc",
         req,
+        
         router: appRouter,
+        // automatically handled,
         createContext: ({}) => ({}),
 
         onError: ({ path, error }) => {

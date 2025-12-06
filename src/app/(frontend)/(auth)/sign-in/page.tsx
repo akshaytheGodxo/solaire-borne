@@ -112,7 +112,7 @@ const Page = () => {
                                     {errors?.password && (<p className="text-sm text-red-500">{errors.password.message}</p>)}
 
                                 </div>
-                                <Button>Sign in</Button>
+                                <Button className="cursor-pointer">Sign in</Button>
                             </div>
                         </form>
 

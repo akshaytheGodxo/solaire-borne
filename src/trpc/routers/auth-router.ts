@@ -79,7 +79,8 @@ export const authRouter = router({
         const cookieStore = await cookies();
         cookieStore.set("payload-token", token, {
           httpOnly: true,
-          path: "/"
+          path: "/",
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
         })
         if (!token) throw new Error("No token returned from payload");
         

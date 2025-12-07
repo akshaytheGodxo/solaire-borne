@@ -37,7 +37,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
         return (
             <Link className={cn('invisible h-full w-full cursor-pointer group/main', {
                 "visible animated-in fade-in-5": isVisible
-            })} href={`/products/${product.id}`}>
+            })} href={`/product/${product.id}`}>
                 <div className="flex flex-col w-full">
                     <ImageSlider urls={validUrls} />
 

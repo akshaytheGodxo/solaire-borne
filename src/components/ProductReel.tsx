@@ -3,6 +3,7 @@ import { TQueryValidator } from "@/lib/validators/query-validators";
 import { trpc } from "@/trpc/client";
 import Link from "next/link";
 import { Product } from "../../payload-types";
+import ProductListing from "./ProductListing";
 
 interface ProductReelProps {
     title: string;
@@ -20,10 +21,11 @@ const ProductReel = (props: ProductReelProps) => {
     }, {
         getNextPageParam: (lastPage) => lastPage.nextPage
     })
-
+    // console.log(queryResults);
     const products = queryResults?.pages.flatMap((page) => page.items)
 
     let map: (Product | null)[] = [];
+    
     if (products && products.length > 0) {
         map = products;
     } else if (isLoading){
@@ -48,7 +50,7 @@ const ProductReel = (props: ProductReelProps) => {
                 <div className="mt-6 flex items-center w-full">
                     <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
                         {map.map((product, index) => (
-                            <ProductListing />
+                            <ProductListing product={product} index={index} key={index}/>
                         ))}
                     </div>
                 </div>

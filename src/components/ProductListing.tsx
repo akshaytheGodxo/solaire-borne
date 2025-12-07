@@ -29,9 +29,9 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
     const label = PRODUCT_CATEGORIES.find(({ value }) => value === product.category)?.label
 
 
-    const validUrls = product.images.map(({ image }) => typeof image === "string" ? image : image?.url).filter(Boolean) as string[];
+    const validUrls = product.images.map(({ images }) => typeof images === "string" ? images : images?.url).filter(Boolean) as string[];
 
-
+    
     // console.log("v:",isVisible);
     if (isVisible && product) {
         return (

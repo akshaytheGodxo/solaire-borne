@@ -6,6 +6,7 @@ export const appRouter = router({
     auth: authRouter,
     product: productRouter,
     payment: paymentRouter
+    
 });
 
 export type AppRouter = typeof appRouter

@@ -13,7 +13,6 @@ interface ProductListingProps {
 
 const ProductListing = ({ product, index }: ProductListingProps) => {
     const [isVisible, setIsVisible] = useState(false);
-    console.log("p:", product);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -32,7 +31,6 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
     const validUrls = product.images.map(({ images }) => typeof images === "string" ? images : images?.url).filter(Boolean) as string[];
 
     
-    // console.log("v:",isVisible);
     if (isVisible && product) {
         return (
             <Link className={cn('invisible h-full w-full cursor-pointer group/main', {

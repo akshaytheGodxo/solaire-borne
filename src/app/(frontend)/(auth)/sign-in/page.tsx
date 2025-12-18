@@ -57,7 +57,6 @@ const Page = () => {
             if (err.data?.code === "UNAUTHORIZED") {
                 
                 toast.error("Invalid email or password.")
-                console.log("here",err);
             }
         }
     })

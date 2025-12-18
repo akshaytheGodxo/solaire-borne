@@ -1,16 +1,25 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
-import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
-import { NextRequest, NextResponse } from "next/server";
 import { PayloadRequest } from "payload";
+import { cookies, headers as nextHeaders } from "next/headers";
 
-export async function createContext(opts: {req: PayloadRequest}, {resHeaders}: FetchCreateContextFnOptions) {
+export async function createContext(opts: {req: PayloadRequest}) {
   const payload = await getPayload({ config });
-  
+  const token = (await cookies()).get("payload-token")?.value;
+
+  let user = null;
+  const headers = await nextHeaders()
+  const result = await payload.auth({
+    headers,
+    canSetHeaders: false,
+  })
+
+  user = result.user ?? null
+
   return {
     payload,
     req: opts.req,
-    resHeaders,
+    user,
   };
 }
 

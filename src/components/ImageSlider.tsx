@@ -37,7 +37,6 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
     const inactiveStyle = "hidden text-gray-400"
 
 
-    console.log("URLS: ", urls);
 
     return (
         <div className="group relative bg-zinc-100 aspect-square overflow-hidden rounded-xl">

@@ -10,7 +10,6 @@ const VerifyEmailPage = () => {
   const toEmail = searchParams.get("to");
 
 
-    console.log(token, toEmail);
 
     return (
         <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">

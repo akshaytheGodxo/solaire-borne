@@ -8,10 +8,9 @@ const t = initTRPC.context<Context>().create()
 const middleware = t.middleware
 
 const isAuth = middleware(async ({ctx, next}) => {
-    const req = ctx.req 
-
-    const {user} = req as {user: User | null}
-
+    const req = ctx
+    console.log("Main Request: " , req?.user)
+    const {user} = req
     if (!user || !user.id) {
         throw new TRPCError({code: "UNAUTHORIZED"})
     }

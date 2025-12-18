@@ -66,6 +66,8 @@ export const authRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { email, password } = input;
       const payload = await getPayloadClient();
+      const { req } = ctx;
+
       try {
         const result = await payload.login({
           collection: "users",
@@ -73,18 +75,28 @@ export const authRouter = router({
             email,
             password,
           },
+          req,
         });
 
-        const token = result.token || ""  
         const cookieStore = await cookies();
+        const token = result.token!
         cookieStore.set("payload-token", token, {
-          httpOnly: true,
-          path: "/",
-          expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+          httpOnly: true, 
+          path: "/", 
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), 
+        });
+
+        await payload.update({
+          collection: "users",
+          id: result.user.id,
+          data: {
+            authToken: token,
+          }
         })
-        if (!token) throw new Error("No token returned from payload");
-        
-        return {success: true}
+
+        return { success: true };
       } catch (error) {
         throw new TRPCError({ code: "UNAUTHORIZED" });
       }

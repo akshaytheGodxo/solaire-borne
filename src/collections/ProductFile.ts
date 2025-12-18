@@ -4,7 +4,6 @@ import { Access, CollectionConfig } from "payload";
 
 const addUser: CollectionBeforeChangeHook = ({ req, data }) => {
   const user = req.user as User | null;
-  console.log("Adding user to product file:", user?.id);
   return { ...data, user: user?.id };
 };
 

@@ -7,7 +7,6 @@ import { formatPrice } from "@/lib/utils";
 
 const CartItem = ({ product }: { product: Product }) => {
 
-    console.log("Products", product);
     const label = PRODUCT_CATEGORIES.find(
         ({ value }) => value === product.category
     )?.label;

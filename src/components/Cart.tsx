@@ -20,7 +20,6 @@ const Cart = () => {
         setIsMounted(true)
     }, []);
 
-    console.log("Items: ",items);
     const cartTotal = items.reduce((total, { product }) => total + product?.price, 0)
     const fee = 0
     return <Sheet>

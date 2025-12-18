@@ -9,8 +9,9 @@ export const paymentRouter = router({
   createSession: privateProcedure
     .input(z.object({ productIds: z.array(z.string()) }))
     .mutation(async ({ ctx, input }) => {
-      const { user } = ctx;
 
+      const { user } = ctx;
+      console.log("User: ", user);
       let { productIds } = input;
 
       if (productIds.length === 0) {
@@ -47,7 +48,7 @@ export const paymentRouter = router({
       })
 
       line_items.push({
-        price: "prod_TaEGdv0cqWTHGU",
+        price: "price_1Sd4B6CFKgrgEYa6pRGoWw2x",
         quantity: 1,
         adjustable_quantity: {
             enabled: false,
@@ -63,6 +64,7 @@ export const paymentRouter = router({
                 userId: user.id,
                 orderId: order.id,
             },
+            mode: "payment",
             line_items: line_items
         })
 

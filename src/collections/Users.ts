@@ -10,6 +10,12 @@ export const Users: CollectionConfig = {
     create: () => true,
   },
   auth: {
+    cookies: {
+      sameSite: 'Lax',
+      
+    },
+    tokenExpiration: 7200,
+    depth: 0,
     verify: {
       generateEmailHTML: ({token}) => {
         return `<a href='${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}'>Verify account</a>`

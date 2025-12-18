@@ -12,7 +12,7 @@ const handler = (req: NextRequest) => {
         
         router: appRouter,
         // automatically handled,
-        createContext: ({}) => ({}),
+        createContext,
 
         onError: ({ path, error }) => {
             console.error(`trpc failed on ${path ?? "<no-path>"}: ${error.message}`);
